@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">LINE Auto Answer</string>
+    <string name="app_name_short">LINEAutoAns</string>
+    <string name="announce_call">%sから電話です</string>
+    <string name="system_settings">システム設定</string>
+    <string name="basic_settings">自動応答の基本設定</string>
+    <string name="advanced_settings">詳細設定</string>
+    <string name="about_this_app">このアプリについて</string>
+    <string name="delay_of_auto_answer">自動応答までの時間</string>
+    <string name="seconds">秒</string>
+    <string name="auto_answer_always">常に自動応答する</string>
+    <string name="auto_answer_headset">ヘッドセット接続時のみ自動応答する</string>
+    <string name="auto_answer_disabled">自動応答しない</string>
+    <string name="enable_text_to_speech">自動応答時に発信元名を読み上げる</string>
+    <string name="show_incoming_notification">着信通知（タップで応答／拒否）※</string>
+    <string name="show_ongoing_notification">通話中通知（タップで通話終了）</string>
+    <string name="notification_read_permitted">通知読み取り許可</string>
+    <string name="copyright">Copyright © 2024 bari-ikutsu.com</string>
+    <string name="tap_to_answer">（🆗タップで応答）</string>
+    <string name="tap_to_decline">（🆖タップで拒否）</string>
+    <string name="tap_to_end_call">（🔚タップで通話終了）</string>
+    <string name="incoming_notification_note">※自動応答が無効の場合のみ通知されます</string>
+</resources>

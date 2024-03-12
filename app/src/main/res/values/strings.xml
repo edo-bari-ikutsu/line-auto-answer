@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">LINE Auto Answer</string>
+    <string name="app_name_short">LINEAutoAns</string>
+    <string name="announce_call">Incoming call from %s</string>
+    <string name="system_settings">System settings</string>
+    <string name="basic_settings">Basic settings of auto answer</string>
+    <string name="advanced_settings">Advanced settings</string>
+    <string name="about_this_app">About this app</string>
+    <string name="delay_of_auto_answer">Delay of auto answer</string>
+    <string name="seconds">second(s)</string>
+    <string name="auto_answer_always">Always auto answer</string>
+    <string name="auto_answer_headset">Auto answer only if headset connected</string>
+    <string name="auto_answer_disabled">Disable auto answer</string>
+    <string name="enable_text_to_speech">Read the caller name when auto answer</string>
+    <string name="show_incoming_notification">Incoming notification (Tap to answer / decline) *</string>
+    <string name="show_ongoing_notification">Ongoing notification (Tap to end call)</string>
+    <string name="notification_read_permitted">Permission to read notification</string>
+    <string name="copyright">Copyright © 2024 bari-ikutsu.com</string>
+    <string name="tap_to_answer">(🆗Tap to answer)</string>
+    <string name="tap_to_decline">(🆖Tap to decline)</string>
+    <string name="tap_to_end_call">(🔚Tap to end call)</string>
+    <string name="incoming_notification_note">* Only when auto answer is disabled.</string>
+</resources>
