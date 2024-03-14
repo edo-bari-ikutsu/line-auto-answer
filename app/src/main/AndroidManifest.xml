@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -32,9 +33,21 @@
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
-            <meta-data android:name="android.service.notification.default_filter_types" android:value="ongoing|conversations|alerting|silent" />
-            <meta-data android:name="android.service.notification.disabled_filter_types" android:value="" />
+
+            <meta-data
+                android:name="android.service.notification.default_filter_types"
+                android:value="ongoing|conversations|alerting|silent" />
+            <meta-data
+                android:name="android.service.notification.disabled_filter_types"
+                android:value="" />
         </service>
+
+        <receiver
+            android:name=".receivers.NotificationActionReceiver"
+            android:exported="false" />
+        <receiver
+            android:name=".receivers.NotificationCancelReceiver"
+            android:exported="false" />
     </application>
     <queries>
         <intent>

@@ -11,6 +11,9 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.bari_ikutsu.lineautoanswer.receivers.NotificationActionReceiver
+import com.bari_ikutsu.lineautoanswer.receivers.NotificationCancelReceiver
+import java.util.Random
 
 class NotificationUtil {
     companion object {
@@ -18,7 +21,7 @@ class NotificationUtil {
         /**
          * Send a notification
          */
-        @SuppressLint("MissingPermission")
+        @SuppressLint("MissingPermission", "LaunchActivityFromNotification")
         fun sendNotification(
             context: Context,
             title: String,
@@ -26,8 +29,10 @@ class NotificationUtil {
             smallIcon: Int,
             largeIcon: Bitmap,
             color: Int,
+            actionIcon: Int,
+            actionTitle: String,
             conversationId: Int,
-            contentIntent: PendingIntent,
+            pendingIntent: PendingIntent,
             notificationChannelId: String
         ) {
             val builder: NotificationCompat.Builder =
@@ -37,8 +42,30 @@ class NotificationUtil {
                     .setColor(color)
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setAutoCancel(true)
-                    .setContentIntent(contentIntent)
+
+            // Create action pending intent
+            val actionIntent = NotificationActionReceiver.createIntent(context, pendingIntent)
+            val actionPendingIntent = PendingIntent.getBroadcast(
+                context,
+                Random().nextInt(100000),
+                actionIntent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+            // Add action to the notification
+            val action = NotificationCompat.Action(actionIcon, actionTitle, actionPendingIntent)
+            builder.addAction(action)
+            // Set action pending intent as content intent
+            builder.setContentIntent(actionPendingIntent)
+
+            // Add cancel action to the notification
+            val cancelIntent = NotificationCancelReceiver.createIntent(context)
+            val cancelPendingIntent = PendingIntent.getBroadcast(
+                context,
+                Random().nextInt(100000),
+                cancelIntent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+            builder.setDeleteIntent(cancelPendingIntent)
 
             NotificationManagerCompat.from(context).notify(conversationId, builder.build())
         }

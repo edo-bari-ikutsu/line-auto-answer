@@ -28,7 +28,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import java.util.Random
 
-
 class AutoPhoneAnswerService : NotificationListenerService() {
     private val TAG = "LineAutoAnswer:AutoPhoneAnswerService"
 
@@ -213,6 +212,8 @@ class AutoPhoneAnswerService : NotificationListenerService() {
                         R.drawable.ic_notification_phone_enabled,
                         notificationIcon,
                         getColor(R.color.ic_notification_default),
+                        R.drawable.ic_notification_phone_enabled,
+                        getString(R.string.answer),
                         Random().nextInt(100000),
                         notification.actions[0].actionIntent,
                         Consts.NOTIFICATION_CHANNEL_ID
@@ -232,6 +233,8 @@ class AutoPhoneAnswerService : NotificationListenerService() {
                         R.drawable.ic_notification_phone_disabled,
                         notificationIcon,
                         getColor(R.color.ic_notification_phone_disabled),
+                        R.drawable.ic_notification_phone_disabled,
+                        getString(R.string.decline),
                         Random().nextInt(100000),
                         notification.actions[1].actionIntent,
                         Consts.NOTIFICATION_CHANNEL_ID
@@ -292,6 +295,8 @@ class AutoPhoneAnswerService : NotificationListenerService() {
                     R.drawable.ic_notification_phone,
                     notificationIcon,
                     getColor(R.color.ic_notification_default),
+                    R.drawable.ic_notification_phone_disabled,
+                    getString(R.string.end_call),
                     Random().nextInt(100000),
                     notification.actions[0].actionIntent,
                     Consts.NOTIFICATION_CHANNEL_ID
