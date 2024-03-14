@@ -23,4 +23,5 @@
     <string name="answer">応答</string>
     <string name="decline">拒否</string>
     <string name="end_call">通話終了</string>
+    <string name="keyword_making_call">発信中</string>
 </resources>

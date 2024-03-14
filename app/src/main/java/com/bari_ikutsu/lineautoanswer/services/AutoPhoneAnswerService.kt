@@ -279,6 +279,12 @@ class AutoPhoneAnswerService : NotificationListenerService() {
                 }
             }, (callTimeout * 1000).toLong())
         } else if (notification.channelId == Consts.LINE_VOIP_CHANNEL_ID_ONGOING) {
+            // If the notification text contains keyword that represents making call, do nothing
+            // Only process for ongoing call notification
+            if (text.contains(getString(R.string.keyword_making_call))) {
+                return
+            }
+
             // Process for ongoing call notification
             if (showongoingNotification) {
                 NotificationManagerCompat.from(applicationContext).cancelAll()

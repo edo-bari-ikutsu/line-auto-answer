@@ -23,4 +23,5 @@
     <string name="answer">Answer</string>
     <string name="decline">Decline</string>
     <string name="end_call">End call</string>
+    <string name="keyword_making_call">Making</string>
 </resources>
