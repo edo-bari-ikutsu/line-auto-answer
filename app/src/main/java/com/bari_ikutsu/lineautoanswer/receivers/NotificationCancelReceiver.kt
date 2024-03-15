@@ -8,11 +8,12 @@ import androidx.core.app.NotificationManagerCompat
 class NotificationCancelReceiver : BroadcastReceiver() {
 
     companion object {
+        const val ACTION = "com.bari_ikutsu.lineautoanswer.NOTIFICATION_CANCEL"
         /**
          * Create an intent to cancel all notifications
          */
-        fun createIntent(context: Context): Intent {
-            return Intent(context, NotificationCancelReceiver::class.java)
+        fun createIntent(): Intent {
+            return Intent(ACTION)
         }
     }
 
@@ -20,6 +21,8 @@ class NotificationCancelReceiver : BroadcastReceiver() {
      * Cancel all notifications
      */
     override fun onReceive(context: Context, intent: Intent) {
-        NotificationManagerCompat.from(context).cancelAll()
+        if (intent.action == ACTION) {
+            NotificationManagerCompat.from(context).cancelAll()
+        }
     }
 }

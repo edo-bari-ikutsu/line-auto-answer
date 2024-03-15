@@ -44,7 +44,7 @@ class NotificationUtil {
                     .setContentText(message)
 
             // Create action pending intent
-            val actionIntent = NotificationActionReceiver.createIntent(context, pendingIntent)
+            val actionIntent = NotificationActionReceiver.createIntent(pendingIntent)
             val actionPendingIntent = PendingIntent.getBroadcast(
                 context,
                 Random().nextInt(100000),
@@ -58,7 +58,7 @@ class NotificationUtil {
             builder.setContentIntent(actionPendingIntent)
 
             // Add cancel action to the notification
-            val cancelIntent = NotificationCancelReceiver.createIntent(context)
+            val cancelIntent = NotificationCancelReceiver.createIntent()
             val cancelPendingIntent = PendingIntent.getBroadcast(
                 context,
                 Random().nextInt(100000),

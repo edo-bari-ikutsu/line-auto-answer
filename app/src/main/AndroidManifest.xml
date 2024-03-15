@@ -41,13 +41,6 @@
                 android:name="android.service.notification.disabled_filter_types"
                 android:value="" />
         </service>
-
-        <receiver
-            android:name=".receivers.NotificationActionReceiver"
-            android:exported="false" />
-        <receiver
-            android:name=".receivers.NotificationCancelReceiver"
-            android:exported="false" />
     </application>
     <queries>
         <intent>

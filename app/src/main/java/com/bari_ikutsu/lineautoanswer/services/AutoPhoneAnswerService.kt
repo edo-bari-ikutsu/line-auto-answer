@@ -21,6 +21,8 @@ import androidx.core.os.LocaleListCompat
 import com.bari_ikutsu.lineautoanswer.AutoAnswerMode
 import com.bari_ikutsu.lineautoanswer.R
 import com.bari_ikutsu.lineautoanswer.data.PrefStore
+import com.bari_ikutsu.lineautoanswer.receivers.NotificationActionReceiver
+import com.bari_ikutsu.lineautoanswer.receivers.NotificationCancelReceiver
 import com.bari_ikutsu.lineautoanswer.utils.Consts
 import com.bari_ikutsu.lineautoanswer.utils.NotificationUtil
 import kotlinx.coroutines.Dispatchers
@@ -103,6 +105,9 @@ class AutoPhoneAnswerService : NotificationListenerService() {
 
     private val bluetoothHeadsetProfileServiceListener = BluetoothHeadsetProfileServiceListener()
 
+    private val notificationActionReceiver = NotificationActionReceiver()
+    private val notificationCancelReceiver = NotificationCancelReceiver()
+
     override fun onCreate() {
         super.onCreate()
         // Register headphone plug/unplug receiver
@@ -119,6 +124,21 @@ class AutoPhoneAnswerService : NotificationListenerService() {
             IntentFilter("android.bluetooth.headset.profile.action.CONNECTION_STATE_CHANGED"),
             ContextCompat.RECEIVER_EXPORTED
         )
+        // Register notification action receiver
+        ContextCompat.registerReceiver(
+            applicationContext,
+            notificationActionReceiver,
+            IntentFilter(NotificationActionReceiver.ACTION),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+        // Register notification cancel receiver
+        ContextCompat.registerReceiver(
+            applicationContext,
+            notificationCancelReceiver,
+            IntentFilter(NotificationCancelReceiver.ACTION),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+
         // Register Bluetooth headset profile service listener
         // to retrieve initial connection status of Bluetooth headset
         val bluetoothManager =
@@ -147,6 +167,8 @@ class AutoPhoneAnswerService : NotificationListenerService() {
     override fun onDestroy() {
         applicationContext.unregisterReceiver(headphonePlugBroadcastReceiver)
         applicationContext.unregisterReceiver(bluetoothHeadsetConnectStateReceiver)
+        applicationContext.unregisterReceiver(notificationActionReceiver)
+        applicationContext.unregisterReceiver(notificationCancelReceiver)
         tts.shutdown()
         super.onDestroy()
     }
