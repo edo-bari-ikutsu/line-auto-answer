@@ -65,8 +65,8 @@ class AutoPhoneAnswerService : NotificationListenerService() {
      */
     inner class BluetoothHeadsetConnectStateReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action == "android.bluetooth.headset.profile.action.CONNECTION_STATE_CHANGED") {
-                val state = intent.getIntExtra("android.bluetooth.profile.extra.STATE", -1)
+            if (intent.action == BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED) {
+                val state = intent.getIntExtra(BluetoothProfile.EXTRA_STATE, -1)
                 if (state == 0) {
                     Log.d(TAG, "Bluetooth headset is disconnected")
                     isBluetoothHeadsetConnected = false
@@ -121,7 +121,7 @@ class AutoPhoneAnswerService : NotificationListenerService() {
         ContextCompat.registerReceiver(
             applicationContext,
             bluetoothHeadsetConnectStateReceiver,
-            IntentFilter("android.bluetooth.headset.profile.action.CONNECTION_STATE_CHANGED"),
+            IntentFilter(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED),
             ContextCompat.RECEIVER_EXPORTED
         )
         // Register notification action receiver
