@@ -21,7 +21,7 @@ class NotificationUtil {
         /**
          * Send a notification
          */
-        @SuppressLint("MissingPermission", "LaunchActivityFromNotification")
+        @SuppressLint("MissingPermission")
         fun sendNotification(
             context: Context,
             title: String,
@@ -43,7 +43,34 @@ class NotificationUtil {
                     .setContentTitle(title)
                     .setContentText(message)
 
-            // Create action pending intent
+            // Add action to the notification
+            val action = createNotificationAction(context, actionIcon, actionTitle, pendingIntent)
+            builder.addAction(action)
+            // Set action pending intent as content intent
+            builder.setContentIntent(action.actionIntent)
+
+            // Add cancel action to the notification
+            val cancelIntent = NotificationCancelReceiver.createIntent()
+            val cancelPendingIntent = PendingIntent.getBroadcast(
+                context,
+                Random().nextInt(100000),
+                cancelIntent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+            builder.setDeleteIntent(cancelPendingIntent)
+
+            NotificationManagerCompat.from(context).notify(conversationId, builder.build())
+        }
+
+        /**
+         * Create a notification action
+         */
+        fun createNotificationAction(
+            context: Context,
+            actionIcon: Int,
+            actionTitle: String,
+            pendingIntent: PendingIntent
+        ): NotificationCompat.Action {
             val actionIntent = NotificationActionReceiver.createIntent(pendingIntent)
             val actionPendingIntent = PendingIntent.getBroadcast(
                 context,
@@ -52,10 +79,36 @@ class NotificationUtil {
                 PendingIntent.FLAG_IMMUTABLE
             )
             // Add action to the notification
-            val action = NotificationCompat.Action(actionIcon, actionTitle, actionPendingIntent)
-            builder.addAction(action)
-            // Set action pending intent as content intent
-            builder.setContentIntent(actionPendingIntent)
+            return NotificationCompat.Action(actionIcon, actionTitle, actionPendingIntent)
+        }
+
+        /**
+         * Send a notification with multiple actions
+         */
+        @SuppressLint("MissingPermission")
+        fun sendMultiActionNotification(
+            context: Context,
+            title: String,
+            message: String,
+            smallIcon: Int,
+            largeIcon: Bitmap,
+            color: Int,
+            actions: Array<NotificationCompat.Action>,
+            conversationId: Int,
+            notificationChannelId: String
+        ) {
+            val builder: NotificationCompat.Builder =
+                NotificationCompat.Builder(context, notificationChannelId)
+                    .setSmallIcon(smallIcon)
+                    .setLargeIcon(largeIcon)
+                    .setColor(color)
+                    .setContentTitle(title)
+                    .setContentText(message)
+
+            // Add action to the notification
+            for (action in actions) {
+                builder.addAction(action)
+            }
 
             // Add cancel action to the notification
             val cancelIntent = NotificationCancelReceiver.createIntent()

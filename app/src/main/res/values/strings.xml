@@ -12,7 +12,8 @@
     <string name="auto_answer_headset">Auto answer only if headset connected</string>
     <string name="auto_answer_disabled">Disable auto answer</string>
     <string name="enable_text_to_speech">Read the caller name when auto answer</string>
-    <string name="show_incoming_notification">Incoming notification (Tap to answer / decline) *</string>
+    <string name="show_incoming_notifications">Incoming notifications (Tap to answer / decline) *</string>
+    <string name="merge_incoming_notifications">Merge answer and decline incoming notifications</string>
     <string name="show_ongoing_notification">Ongoing notification (Tap to end call)</string>
     <string name="notification_read_permitted">Permission to read notification</string>
     <string name="copyright">Copyright © 2024 bari-ikutsu.com</string>

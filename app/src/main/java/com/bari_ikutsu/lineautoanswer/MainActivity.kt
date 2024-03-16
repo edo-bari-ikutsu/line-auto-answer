@@ -33,6 +33,8 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -131,8 +133,12 @@ class MainActivity : ComponentActivity() {
 fun Page(tryToGetPermission: () -> Unit, versionName: String) {
     val prefStore = PrefStore(LocalContext.current)
     val enableTextToSpeech = prefStore.getEnableTextToSpeech.collectAsState(initial = true)
-    val showIncomingNotification = prefStore.getShowIncomingNotification.collectAsState(initial = true)
-    val showOngoingNotification = prefStore.getShowOngoingNotification.collectAsState(initial = true)
+    val showIncomingNotifications =
+        prefStore.getShowIncomingNotifications.collectAsState(initial = true)
+    val mergeIncomingNotifications =
+        prefStore.getMergeIncomingNotifications.collectAsState(initial = true)
+    val showOngoingNotification =
+        prefStore.getShowOngoingNotification.collectAsState(initial = true)
 
     // A surface container using the 'background' color from the theme
     Surface(
@@ -149,7 +155,7 @@ fun Page(tryToGetPermission: () -> Unit, versionName: String) {
                     .padding(innerPadding)
                     .verticalScroll(rememberScrollState())
             ) {
-                Card (
+                Card(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 8.dp, top = 8.dp, end = 8.dp)
@@ -194,11 +200,22 @@ fun Page(tryToGetPermission: () -> Unit, versionName: String) {
                         }
                     )
                     SwitchSetting(
-                        checked = showIncomingNotification,
-                        text = stringResource(id = R.string.show_incoming_notification),
+                        checked = showIncomingNotifications,
+                        text = stringResource(id = R.string.show_incoming_notifications),
                         onCheckedChange = {
                             CoroutineScope(Dispatchers.IO).launch {
-                                prefStore.saveShowIncomingNotification(it)
+                                prefStore.saveShowIncomingNotifications(it)
+                            }
+                        }
+                    )
+                    SwitchSetting(
+                        indent = 1,
+                        enabled = showIncomingNotifications,
+                        checked = mergeIncomingNotifications,
+                        text = stringResource(id = R.string.merge_incoming_notifications),
+                        onCheckedChange = {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                prefStore.saveMergeIncomingNotifications(it)
                             }
                         }
                     )
@@ -214,7 +231,8 @@ fun Page(tryToGetPermission: () -> Unit, versionName: String) {
                     Text(
                         text = stringResource(id = R.string.incoming_notification_note),
                         fontSize = 11.sp,
-                        modifier = Modifier.padding(end = 12.dp)
+                        modifier = Modifier
+                            .padding(end = 12.dp)
                             .align(Alignment.End)
 
                     )
@@ -373,19 +391,26 @@ fun CallTimeOut() {
 }
 
 @Composable
-fun SwitchSetting(checked: State<Boolean>, text: String, onCheckedChange: (Boolean) -> Unit) {
+fun SwitchSetting(
+    indent: Int = 0,
+    enabled: State<Boolean> = remember { mutableStateOf(true) },
+    checked: State<Boolean>,
+    text: String,
+    onCheckedChange: (Boolean) -> Unit
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 12.dp)
+            .padding(start = (12 + 30 * indent).dp)
     ) {
         Switch(
+            enabled = enabled.value,
             checked = checked.value,
             onCheckedChange = onCheckedChange
         )
         Text(
-        text,
+            text,
             modifier = Modifier.padding(start = 8.dp, end = 12.dp)
         )
     }

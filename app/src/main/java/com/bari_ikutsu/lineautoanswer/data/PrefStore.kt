@@ -19,8 +19,10 @@ class PrefStore(private val context: Context) {
         private val AUTO_ANSWER_MODE_KEY = intPreferencesKey("autoAnswerMode")
         private val CALL_TIMEOUT_KEY = floatPreferencesKey("callTimeout")
         private val ENABLE_TEXT_TO_SPEECH_KEY = booleanPreferencesKey("enableTextToSpeech")
-        private val SHOW_INCOMING_NOTIFICATION_KEY =
-            booleanPreferencesKey("showIncomingNotification")
+        private val SHOW_INCOMING_NOTIFICATIONS_KEY =
+            booleanPreferencesKey("showIncomingNotifications")
+        private val MERGE_INCOMING_NOTIFICATIONS_KEY =
+            booleanPreferencesKey("mergeIncomingNotifications")
         private val SHOW_ONGOING_NOTIFICATION_KEY = booleanPreferencesKey("showOngoingNotification")
     }
 
@@ -36,8 +38,11 @@ class PrefStore(private val context: Context) {
     val getEnableTextToSpeech: Flow<Boolean> = context.dataStore.data.map { preferences ->
         preferences[ENABLE_TEXT_TO_SPEECH_KEY] ?: true
     }
-    val getShowIncomingNotification: Flow<Boolean> = context.dataStore.data.map { preferences ->
-        preferences[SHOW_INCOMING_NOTIFICATION_KEY] ?: true
+    val getShowIncomingNotifications: Flow<Boolean> = context.dataStore.data.map { preferences ->
+        preferences[SHOW_INCOMING_NOTIFICATIONS_KEY] ?: true
+    }
+    val getMergeIncomingNotifications: Flow<Boolean> = context.dataStore.data.map { preferences ->
+        preferences[MERGE_INCOMING_NOTIFICATIONS_KEY] ?: true
     }
     val getShowOngoingNotification: Flow<Boolean> = context.dataStore.data.map { preferences ->
         preferences[SHOW_ONGOING_NOTIFICATION_KEY] ?: true
@@ -67,9 +72,15 @@ class PrefStore(private val context: Context) {
         }
     }
 
-    suspend fun saveShowIncomingNotification(showIncomingNotification: Boolean) {
+    suspend fun saveShowIncomingNotifications(showIncomingNotification: Boolean) {
         context.dataStore.edit { preferences ->
-            preferences[SHOW_INCOMING_NOTIFICATION_KEY] = showIncomingNotification
+            preferences[SHOW_INCOMING_NOTIFICATIONS_KEY] = showIncomingNotification
+        }
+    }
+
+    suspend fun saveMergeIncomingNotifications(mergeIncomingNotification: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[MERGE_INCOMING_NOTIFICATIONS_KEY] = mergeIncomingNotification
         }
     }
 

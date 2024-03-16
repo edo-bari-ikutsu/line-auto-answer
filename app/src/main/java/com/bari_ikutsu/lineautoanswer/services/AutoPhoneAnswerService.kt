@@ -188,14 +188,16 @@ class AutoPhoneAnswerService : NotificationListenerService() {
         var autoAnswerMode: Int
         var callTimeout: Float
         var enableTextToSpeech: Boolean
-        var showIncomingNotification: Boolean
-        var showongoingNotification: Boolean
+        var showIncomingNotifications: Boolean
+        var mergeIncomingNotifications: Boolean
+        var showOngoingNotification: Boolean
         runBlocking(Dispatchers.IO) {
             autoAnswerMode = prefStore.getAutoAnswerMode.first()
             callTimeout = prefStore.getCallTimeout.first()
             enableTextToSpeech = prefStore.getEnableTextToSpeech.first()
-            showIncomingNotification = prefStore.getShowIncomingNotification.first()
-            showongoingNotification = prefStore.getShowOngoingNotification.first()
+            showIncomingNotifications = prefStore.getShowIncomingNotifications.first()
+            mergeIncomingNotifications = prefStore.getMergeIncomingNotifications.first()
+            showOngoingNotification = prefStore.getShowOngoingNotification.first()
         }
 
         val notification = sbn.notification
@@ -216,51 +218,84 @@ class AutoPhoneAnswerService : NotificationListenerService() {
             }
 
             // Process for incoming call notification
-            if (showIncomingNotification && autoAnswerMode == AutoAnswerMode.OFF.value) {
+            if (showIncomingNotifications && autoAnswerMode == AutoAnswerMode.OFF.value) {
                 NotificationManagerCompat.from(applicationContext).cancelAll()
 
-                // Send two notifications, one for answering the call and one for declining the call
-                run {
+                if (mergeIncomingNotifications && notification.actions.size >= 2) {
                     val notificationIcon =
                         NotificationUtil.getNotificationIconBitmap(
                             applicationContext,
                             notification,
-                            R.drawable.ic_notification_phone_enabled
+                            R.drawable.ic_notification_phone
                         )
-                    NotificationUtil.sendNotification(
+                    NotificationUtil.sendMultiActionNotification(
                         applicationContext,
                         title,
-                        "$text ${getString(R.string.tap_to_answer)}",
+                        text,
                         R.drawable.ic_notification_phone_enabled,
                         notificationIcon,
                         getColor(R.color.ic_notification_default),
-                        R.drawable.ic_notification_phone_enabled,
-                        getString(R.string.answer),
+                        arrayOf(
+                            NotificationUtil.createNotificationAction(
+                                applicationContext,
+                                R.drawable.ic_notification_phone_enabled,
+                                getString(R.string.answer),
+                                notification.actions[0].actionIntent
+                            ),
+                            NotificationUtil.createNotificationAction(
+                                applicationContext,
+                                R.drawable.ic_notification_phone_disabled,
+                                getString(R.string.decline),
+                                notification.actions[1].actionIntent
+                            )
+                        ),
                         Random().nextInt(100000),
-                        notification.actions[0].actionIntent,
                         Consts.NOTIFICATION_CHANNEL_ID
                     )
-                }
-                if (notification.actions.size >= 2) {
-                    val notificationIcon =
-                        NotificationUtil.getNotificationIconBitmap(
+                } else {
+                    // Send two notifications, one for answering the call and one for declining the call
+                    run {
+                        val notificationIcon =
+                            NotificationUtil.getNotificationIconBitmap(
+                                applicationContext,
+                                notification,
+                                R.drawable.ic_notification_phone_enabled
+                            )
+                        NotificationUtil.sendNotification(
                             applicationContext,
-                            notification,
-                            R.drawable.ic_notification_phone_disabled
+                            title,
+                            "$text ${getString(R.string.tap_to_answer)}",
+                            R.drawable.ic_notification_phone_enabled,
+                            notificationIcon,
+                            getColor(R.color.ic_notification_default),
+                            R.drawable.ic_notification_phone_enabled,
+                            getString(R.string.answer),
+                            Random().nextInt(100000),
+                            notification.actions[0].actionIntent,
+                            Consts.NOTIFICATION_CHANNEL_ID
                         )
-                    NotificationUtil.sendNotification(
-                        applicationContext,
-                        title,
-                        "$text ${getString(R.string.tap_to_decline)}",
-                        R.drawable.ic_notification_phone_disabled,
-                        notificationIcon,
-                        getColor(R.color.ic_notification_phone_disabled),
-                        R.drawable.ic_notification_phone_disabled,
-                        getString(R.string.decline),
-                        Random().nextInt(100000),
-                        notification.actions[1].actionIntent,
-                        Consts.NOTIFICATION_CHANNEL_ID
-                    )
+                    }
+                    if (notification.actions.size >= 2) {
+                        val notificationIcon =
+                            NotificationUtil.getNotificationIconBitmap(
+                                applicationContext,
+                                notification,
+                                R.drawable.ic_notification_phone_disabled
+                            )
+                        NotificationUtil.sendNotification(
+                            applicationContext,
+                            title,
+                            "$text ${getString(R.string.tap_to_decline)}",
+                            R.drawable.ic_notification_phone_disabled,
+                            notificationIcon,
+                            getColor(R.color.ic_notification_phone_disabled),
+                            R.drawable.ic_notification_phone_disabled,
+                            getString(R.string.decline),
+                            Random().nextInt(100000),
+                            notification.actions[1].actionIntent,
+                            Consts.NOTIFICATION_CHANNEL_ID
+                        )
+                    }
                 }
             }
 
@@ -308,7 +343,7 @@ class AutoPhoneAnswerService : NotificationListenerService() {
             }
 
             // Process for ongoing call notification
-            if (showongoingNotification) {
+            if (showOngoingNotification) {
                 NotificationManagerCompat.from(applicationContext).cancelAll()
                 val notificationIcon =
                     NotificationUtil.getNotificationIconBitmap(

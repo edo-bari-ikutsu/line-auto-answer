@@ -12,7 +12,8 @@
     <string name="auto_answer_headset">ヘッドセット接続時のみ自動応答する</string>
     <string name="auto_answer_disabled">自動応答しない</string>
     <string name="enable_text_to_speech">自動応答時に発信元名を読み上げる</string>
-    <string name="show_incoming_notification">着信通知（タップで応答／拒否）※</string>
+    <string name="show_incoming_notifications">着信通知（タップで応答／拒否）※</string>
+    <string name="merge_incoming_notifications">応答と拒否の着信通知をまとめる</string>
     <string name="show_ongoing_notification">通話中通知（タップで通話終了）</string>
     <string name="notification_read_permitted">通知読み取り許可</string>
     <string name="copyright">Copyright © 2024 bari-ikutsu.com</string>
