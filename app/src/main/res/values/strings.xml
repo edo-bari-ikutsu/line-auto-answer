@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">LINE Auto Answer</string>
-    <string name="app_name_short">LINEAutoAns</string>
+    <string name="app_name">LN Auto Answer</string>
+    <string name="app_name_short">LN Auto Ans</string>
     <string name="announce_call">Incoming call from %s</string>
     <string name="system_settings">System settings</string>
     <string name="basic_settings">Basic settings of auto answer</string>

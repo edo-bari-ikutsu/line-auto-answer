@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">LINE Auto Answer</string>
-    <string name="app_name_short">LINEAutoAns</string>
+    <string name="app_name">LN Auto Answer</string>
+    <string name="app_name_short">LN Auto Ans</string>
     <string name="announce_call">%sから電話です</string>
     <string name="system_settings">システム設定</string>
     <string name="basic_settings">自動応答の基本設定</string>

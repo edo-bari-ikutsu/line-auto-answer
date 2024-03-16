@@ -1,4 +1,4 @@
-package com.bari_ikutsu.lineautoanswer.utils
+package com.bari_ikutsu.lnautoanswer.utils
 
 import android.annotation.SuppressLint
 import android.app.Notification
@@ -11,8 +11,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.bari_ikutsu.lineautoanswer.receivers.NotificationActionReceiver
-import com.bari_ikutsu.lineautoanswer.receivers.NotificationCancelReceiver
+import com.bari_ikutsu.lnautoanswer.receivers.NotificationActionReceiver
+import com.bari_ikutsu.lnautoanswer.receivers.NotificationCancelReceiver
 import java.util.Random
 
 class NotificationUtil {

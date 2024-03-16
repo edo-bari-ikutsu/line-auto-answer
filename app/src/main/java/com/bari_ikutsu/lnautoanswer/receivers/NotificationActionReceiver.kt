@@ -1,4 +1,4 @@
-package com.bari_ikutsu.lineautoanswer.receivers
+package com.bari_ikutsu.lnautoanswer.receivers
 
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -9,7 +9,7 @@ import androidx.core.content.IntentCompat
 
 class NotificationActionReceiver : BroadcastReceiver() {
     companion object {
-        const val ACTION = "com.bari_ikutsu.lineautoanswer.NOTIFICATION_ACTION"
+        const val ACTION = "com.bari_ikutsu.lnautoanswer.NOTIFICATION_ACTION"
         private const val EXTRA_PENDING_INTENT = "pendingIntent"
 
         /**

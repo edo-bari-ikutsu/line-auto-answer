@@ -1,4 +1,4 @@
-package com.bari_ikutsu.lineautoanswer.ui.theme
+package com.bari_ikutsu.lnautoanswer.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

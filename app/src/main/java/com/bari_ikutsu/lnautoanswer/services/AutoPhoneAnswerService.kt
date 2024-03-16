@@ -1,4 +1,4 @@
-package com.bari_ikutsu.lineautoanswer.services
+package com.bari_ikutsu.lnautoanswer.services
 
 import android.app.Notification
 import android.bluetooth.BluetoothHeadset
@@ -18,20 +18,20 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.HandlerCompat
 import androidx.core.os.LocaleListCompat
-import com.bari_ikutsu.lineautoanswer.AutoAnswerMode
-import com.bari_ikutsu.lineautoanswer.R
-import com.bari_ikutsu.lineautoanswer.data.PrefStore
-import com.bari_ikutsu.lineautoanswer.receivers.NotificationActionReceiver
-import com.bari_ikutsu.lineautoanswer.receivers.NotificationCancelReceiver
-import com.bari_ikutsu.lineautoanswer.utils.Consts
-import com.bari_ikutsu.lineautoanswer.utils.NotificationUtil
+import com.bari_ikutsu.lnautoanswer.AutoAnswerMode
+import com.bari_ikutsu.lnautoanswer.R
+import com.bari_ikutsu.lnautoanswer.data.PrefStore
+import com.bari_ikutsu.lnautoanswer.receivers.NotificationActionReceiver
+import com.bari_ikutsu.lnautoanswer.receivers.NotificationCancelReceiver
+import com.bari_ikutsu.lnautoanswer.utils.Consts
+import com.bari_ikutsu.lnautoanswer.utils.NotificationUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import java.util.Random
 
 class AutoPhoneAnswerService : NotificationListenerService() {
-    private val TAG = "LineAutoAnswer:AutoPhoneAnswerService"
+    private val TAG = "AutoPhoneAnswerService"
 
     private lateinit var tts: TextToSpeech
     private lateinit var prefStore: PrefStore

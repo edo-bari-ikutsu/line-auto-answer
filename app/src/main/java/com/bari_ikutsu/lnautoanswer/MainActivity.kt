@@ -1,4 +1,4 @@
-package com.bari_ikutsu.lineautoanswer
+package com.bari_ikutsu.lnautoanswer
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -46,9 +46,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
-import com.bari_ikutsu.lineautoanswer.data.PrefStore
-import com.bari_ikutsu.lineautoanswer.ui.theme.LINEAutoAnswerTheme
-import com.bari_ikutsu.lineautoanswer.utils.Consts
+import com.bari_ikutsu.lnautoanswer.data.PrefStore
+import com.bari_ikutsu.lnautoanswer.ui.theme.LNAutoAnswerTheme
+import com.bari_ikutsu.lnautoanswer.utils.Consts
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            LINEAutoAnswerTheme {
+            LNAutoAnswerTheme {
                 Page(
                     tryToGetPermission = { tryToGetPermission() },
                     versionName = packageManager.getPackageInfo(packageName, 0).versionName
@@ -431,7 +431,7 @@ fun VersionAndCopyright(versionName: String) {
 @Preview(showBackground = true)
 @Composable
 fun PagePreview() {
-    LINEAutoAnswerTheme {
+    LNAutoAnswerTheme {
         Page(
             tryToGetPermission = {},
             versionName = "0.1"

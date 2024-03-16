@@ -1,4 +1,4 @@
-package com.bari_ikutsu.lineautoanswer.data
+package com.bari_ikutsu.lnautoanswer.data
 
 import android.content.Context
 import androidx.datastore.core.DataStore

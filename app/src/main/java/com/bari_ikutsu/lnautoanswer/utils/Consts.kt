@@ -1,4 +1,4 @@
-package com.bari_ikutsu.lineautoanswer.utils
+package com.bari_ikutsu.lnautoanswer.utils
 
 class Consts {
     companion object {

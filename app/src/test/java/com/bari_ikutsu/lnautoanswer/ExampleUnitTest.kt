@@ -1,4 +1,4 @@
-package com.bari_ikutsu.lineautoanswer
+package com.bari_ikutsu.lnautoanswer
 
 import org.junit.Test
 

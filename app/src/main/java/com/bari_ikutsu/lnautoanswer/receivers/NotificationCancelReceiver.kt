@@ -1,4 +1,4 @@
-package com.bari_ikutsu.lineautoanswer.receivers
+package com.bari_ikutsu.lnautoanswer.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -8,7 +8,7 @@ import androidx.core.app.NotificationManagerCompat
 class NotificationCancelReceiver : BroadcastReceiver() {
 
     companion object {
-        const val ACTION = "com.bari_ikutsu.lineautoanswer.NOTIFICATION_CANCEL"
+        const val ACTION = "com.bari_ikutsu.lnautoanswer.NOTIFICATION_CANCEL"
         /**
          * Create an intent to cancel all notifications
          */

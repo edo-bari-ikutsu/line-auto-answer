@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.bari_ikutsu.lineautoanswer"
+    namespace = "com.bari_ikutsu.lnautoanswer"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.bari_ikutsu.lineautoanswer"
+        applicationId = "com.bari_ikutsu.lnautoanswer"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
