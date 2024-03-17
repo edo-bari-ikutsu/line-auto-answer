@@ -229,7 +229,12 @@ class AutoPhoneAnswerService : NotificationListenerService() {
             }
 
             // Process for incoming call notification
-            if (showIncomingNotifications && autoAnswerMode == AutoAnswerMode.OFF.value) {
+            if (showIncomingNotifications &&
+                (autoAnswerMode == AutoAnswerMode.OFF.value ||
+                        (autoAnswerMode == AutoAnswerMode.WHEN_HEADSET.value &&
+                                !isHeadsetPlugged && !isBluetoothHeadsetConnected)
+                        )
+            ) {
                 NotificationManagerCompat.from(applicationContext).cancelAll()
 
                 if (mergeIncomingNotifications && notification.actions.size >= 2) {
