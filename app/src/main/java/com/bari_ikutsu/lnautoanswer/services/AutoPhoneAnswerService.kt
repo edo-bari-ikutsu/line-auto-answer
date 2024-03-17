@@ -1,5 +1,6 @@
 package com.bari_ikutsu.lnautoanswer.services
 
+import android.Manifest
 import android.app.Notification
 import android.bluetooth.BluetoothHeadset
 import android.bluetooth.BluetoothManager
@@ -8,12 +9,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.os.Bundle
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.HandlerCompat
@@ -31,7 +34,9 @@ import kotlinx.coroutines.runBlocking
 import java.util.Random
 
 class AutoPhoneAnswerService : NotificationListenerService() {
-    private val TAG = "AutoPhoneAnswerService"
+    companion object {
+        private const val TAG = "AutoPhoneAnswerService"
+    }
 
     private lateinit var tts: TextToSpeech
     private lateinit var prefStore: PrefStore
@@ -88,8 +93,14 @@ class AutoPhoneAnswerService : NotificationListenerService() {
         override fun onServiceConnected(profile: Int, proxy: BluetoothProfile) {
             if (profile == BluetoothProfile.HEADSET) {
                 mBluetoothHeadset = proxy as BluetoothHeadset
-                val devices = mBluetoothHeadset?.connectedDevices
-                if (devices != null && devices.isNotEmpty()) {
+                val devices =
+                    if (ActivityCompat.checkSelfPermission(
+                            applicationContext,
+                            Manifest.permission.BLUETOOTH_CONNECT
+                        ) != PackageManager.PERMISSION_GRANTED
+                    ) null else
+                        mBluetoothHeadset?.connectedDevices
+                if (!devices.isNullOrEmpty()) {
                     isBluetoothHeadsetConnected = true
                 }
                 Log.d(TAG, "Bluetooth headset connected status: $isBluetoothHeadsetConnected")
@@ -143,7 +154,7 @@ class AutoPhoneAnswerService : NotificationListenerService() {
         // to retrieve initial connection status of Bluetooth headset
         val bluetoothManager =
             ContextCompat.getSystemService(applicationContext, BluetoothManager::class.java)
-        bluetoothManager?.getAdapter()?.getProfileProxy(
+        bluetoothManager?.adapter?.getProfileProxy(
             applicationContext,
             bluetoothHeadsetProfileServiceListener,
             BluetoothProfile.HEADSET
