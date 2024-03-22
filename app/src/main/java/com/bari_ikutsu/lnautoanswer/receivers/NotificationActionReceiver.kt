@@ -16,9 +16,11 @@ class NotificationActionReceiver : BroadcastReceiver() {
          * Create an intent to be used as a pending intent for the notification action
          */
         fun createIntent(
+            context: Context,
             pendingIntent: PendingIntent
         ): Intent {
             val intent = Intent(ACTION)
+            intent.setPackage(context.packageName)
             intent.putExtra(EXTRA_PENDING_INTENT, pendingIntent)
             return intent
         }

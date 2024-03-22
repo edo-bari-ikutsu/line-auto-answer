@@ -50,7 +50,7 @@ class NotificationUtil {
             builder.setContentIntent(action.actionIntent)
 
             // Add cancel action to the notification
-            val cancelIntent = NotificationCancelReceiver.createIntent()
+            val cancelIntent = NotificationCancelReceiver.createIntent(context)
             val cancelPendingIntent = PendingIntent.getBroadcast(
                 context,
                 Random().nextInt(100000),
@@ -71,7 +71,7 @@ class NotificationUtil {
             actionTitle: String,
             pendingIntent: PendingIntent
         ): NotificationCompat.Action {
-            val actionIntent = NotificationActionReceiver.createIntent(pendingIntent)
+            val actionIntent = NotificationActionReceiver.createIntent(context, pendingIntent)
             val actionPendingIntent = PendingIntent.getBroadcast(
                 context,
                 Random().nextInt(100000),
@@ -111,7 +111,7 @@ class NotificationUtil {
             }
 
             // Add cancel action to the notification
-            val cancelIntent = NotificationCancelReceiver.createIntent()
+            val cancelIntent = NotificationCancelReceiver.createIntent(context)
             val cancelPendingIntent = PendingIntent.getBroadcast(
                 context,
                 Random().nextInt(100000),

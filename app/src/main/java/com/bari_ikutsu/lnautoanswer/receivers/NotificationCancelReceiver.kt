@@ -12,8 +12,10 @@ class NotificationCancelReceiver : BroadcastReceiver() {
         /**
          * Create an intent to cancel all notifications
          */
-        fun createIntent(): Intent {
-            return Intent(ACTION)
+        fun createIntent(context: Context): Intent {
+            val intent = Intent(ACTION)
+            intent.setPackage(context.packageName)
+            return intent
         }
     }
 
