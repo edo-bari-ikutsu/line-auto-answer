@@ -228,6 +228,17 @@ class AutoPhoneAnswerService : NotificationListenerService() {
                 return
             }
 
+            // Retrieve actions for answering and declining the call
+            var answerAction: Notification.Action? = null
+            var declineAction: Notification.Action? = null
+            notification.actions.forEach { action ->
+                if (action.title.toString().contains(getString(R.string.answer))) {
+                    answerAction = action
+                } else if (action.title.toString().contains(getString(R.string.decline))) {
+                    declineAction = action
+                }
+            }
+
             // Process for incoming call notification
             if (showIncomingNotifications &&
                 (autoAnswerMode == AutoAnswerMode.OFF.value ||
@@ -237,7 +248,7 @@ class AutoPhoneAnswerService : NotificationListenerService() {
             ) {
                 NotificationManagerCompat.from(applicationContext).cancelAll()
 
-                if (mergeIncomingNotifications && notification.actions.size >= 2) {
+                if (mergeIncomingNotifications && answerAction != null && declineAction != null) {
                     val notificationIcon =
                         NotificationUtil.getNotificationIconBitmap(
                             applicationContext,
@@ -256,13 +267,13 @@ class AutoPhoneAnswerService : NotificationListenerService() {
                                 applicationContext,
                                 R.drawable.ic_notification_phone_enabled,
                                 getString(R.string.answer),
-                                notification.actions[0].actionIntent
+                                answerAction!!.actionIntent
                             ),
                             NotificationUtil.createNotificationAction(
                                 applicationContext,
                                 R.drawable.ic_notification_phone_disabled,
                                 getString(R.string.decline),
-                                notification.actions[1].actionIntent
+                                declineAction!!.actionIntent
                             )
                         ),
                         Random().nextInt(100000),
@@ -270,7 +281,7 @@ class AutoPhoneAnswerService : NotificationListenerService() {
                     )
                 } else {
                     // Send two notifications, one for answering the call and one for declining the call
-                    run {
+                    if (answerAction != null) {
                         val notificationIcon =
                             NotificationUtil.getNotificationIconBitmap(
                                 applicationContext,
@@ -287,11 +298,11 @@ class AutoPhoneAnswerService : NotificationListenerService() {
                             R.drawable.ic_notification_phone_enabled,
                             getString(R.string.answer),
                             Random().nextInt(100000),
-                            notification.actions[0].actionIntent,
+                            answerAction!!.actionIntent,
                             Consts.NOTIFICATION_CHANNEL_ID
                         )
                     }
-                    if (notification.actions.size >= 2) {
+                    if (declineAction != null) {
                         val notificationIcon =
                             NotificationUtil.getNotificationIconBitmap(
                                 applicationContext,
@@ -308,7 +319,7 @@ class AutoPhoneAnswerService : NotificationListenerService() {
                             R.drawable.ic_notification_phone_disabled,
                             getString(R.string.decline),
                             Random().nextInt(100000),
-                            notification.actions[1].actionIntent,
+                            declineAction!!.actionIntent,
                             Consts.NOTIFICATION_CHANNEL_ID
                         )
                     }
@@ -327,11 +338,16 @@ class AutoPhoneAnswerService : NotificationListenerService() {
                 return
             }
 
+            // If cannot find intent for answering the call, do nothing
+            if (answerAction == null) {
+                return
+            }
+
             // Below is the process of answering the call
             val handler = HandlerCompat.createAsync(mainLooper)
             handler.postDelayed({
-                // Assumes that first action of notification is action of answering call
-                notification.actions[0].actionIntent.send()
+                // Send the intent to answer the call
+                answerAction!!.actionIntent.send()
 
                 // Announce the sender of the call by speech analysis
                 if (enableTextToSpeech) {
